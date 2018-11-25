@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+	<title>Artists</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<style>
+		body {margin:20px}
+	</style>
+</head>
+
+<body>
+	<h1>Artist List</h1>
+	
+	<div>
+		<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+	</div>
+	
+    <table class="table">
+    	<thead>
+		<tr>
+		    <th scope="col">Name</th>
+		    <th scope="col">Genre</th>
+		    <th scope="col">Year</th>
+		    <th scope="col">Rating</th>
+		    <th scope="col"></th> 
+		</tr>
+		</thead>
+		<tbody th:each = "band : ${bands}"> 										<!-- Iterative table creation starts here -->
+    	<tr>
+    		<td width=600px th:text="${band.name}"></td>
+    		<td th:text="${band.genre}"></td>
+    		<td th:text="${band.year}"></td>
+    		
+    		 <!-- Shows the star rating as a picture -->
+    		<td><img th:src="@{${'/img/' + band.stars + '.png'}}" title="rating" height="20" width="94"/></td>
+    		
+ 			<td>
+ 				<a class="btn btn btn-danger btn-sm" th:href="@{/bdelete/{id}(id=${band.id})}">X</a>
+ 				
+ 				<!-- Gives a button to show the albums -->
+ 				<button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" th:attr="data-target='#collapse' + ${band.id}">&raquo;</button>
+ 			</td>
+    	</tr>
+    	<tr class="table collapse table-sm" th:attr="id='collapse' + ${band.id}"> 	<!-- Table for showing the albums. -->
+    		<th scope="col">Album name</th>											<!-- Has to be this way so that  -->
+    		<th scope="col">Tracks</th>												<!-- the albums are show with the respective bands -->
+    		<th scope="col">Album year</th>											<!-- instead of all bands first then all albums -->
+			<th scope="col">Rating</th>
+			<th></th>																<!-- Final header to equalize the lines between rows -->
+    	</tr>
+    	<tr class="table collapse table-sm" th:attr="id='collapse' + ${band.id}" th:each = "album : ${albums}" th:if = "${album.aArtist} == ${band.name}">
+			<td th:text="${album.aName}"></td>
+			<td th:text="${album.aTracks}"></td>
+			<td th:text="${album.aYear}"></td>
+			<td><img th:src="@{${'/img/' + album.aStars + '.png'}}" title="rating" height="20" width="94"/></td>
+			<td>
+ 				<a class="btn btn btn-danger btn-sm" th:href="@{/adelete/{aId}(aId=${album.aId})}">X</a>
+ 			</td>
+    	</tr>
+    	<tr>																		<!-- These are just to give an empty row between artists. -->
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    	</tr>
+    	</tbody>
+     </table>
+	 <a href="/band" class="btn btn-primary">Add New Artist</a>
+	 <a href="/album" class="btn btn-primary">Add New Album</a>
+	 <br></br>
+	 <div>
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
+		</form>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

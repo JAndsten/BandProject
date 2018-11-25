@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Add new album</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<style>
+		body {margin:20px}
+	</style>
+</head>
+
+<body>
+	<h1>Add an album</h1>
+	<form th:object="${album}" th:action="@{aSave}" action="#" method="post">
+	<div class="form-row">
+		<div class="form-group col-md-6">
+			<label for="aArtist">Artist</label>
+			<select class="form-control" id="aArtist" th:field="*{aArtist}">
+				<option th:each="band : ${bands}" th:value="${band.name}" th:text="${band.name}"></option>
+			</select>
+		</div>
+		<div class="form-group col-md-6">
+			<label for="aName">Album name</label>
+			<input type="text" class="form-control" id="aName" th:field="*{aName}" placeholder="Enter album name"/>
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-group col-md-3">
+			<label for="aTracks">Track amount</label>
+			<input type="text" class="form-control" id="aTracks" th:field="*{aTracks}" placeholder="Enter track amount (integer)"/>
+		</div>
+		<div class="form-group col-md-3">
+			<label for="aYear">Year</label>
+			<input type="text" class="form-control" id="aYear" th:field="*{aYear}" placeholder="Enter year"/>
+		</div>
+		<div class="form-group col-md-3">
+			<label for="aStars">Rating</label>
+			<select class="form-control" id="aStars" th:field="*{aStars}">
+				<option th:value="1" th:text="1"></option>
+				<option th:value="2" th:text="2"></option>
+				<option th:value="3" th:text="3"></option>
+				<option th:value="4" th:text="4"></option>
+				<option th:value="5" th:text="5"></option>
+			</select>
+		</div>
+	</div>
+	<input type="submit" value="Save album"></input>
+	</form>
+	
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
