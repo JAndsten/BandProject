@@ -7,7 +7,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<style>
-		body {margin:20px}
+		body {margin:20px;}
+		.album {font-size:85%;}
+		.artist {font-size:105%;}
 	</style>
 </head>
 
@@ -18,9 +20,13 @@
 		<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
 	</div>
 	
+	<div>
+		<p>RESTful list for: <a href="/artists">artists</a>, <a href="/albums">albums</a>.</p>
+	</div>
+	
     <table class="table">
     	<thead>
-		<tr>
+		<tr class="artist">
 		    <th scope="col">Name</th>
 		    <th scope="col">Genre</th>
 		    <th scope="col">Year</th>
@@ -28,8 +34,8 @@
 		    <th scope="col"></th> 
 		</tr>
 		</thead>
-		<tbody th:each = "band : ${bands}"> 										<!-- Iterative table creation starts here -->
-    	<tr>
+		<tbody th:each = "band : ${bands}"> 												<!-- Iterative table creation starts here -->
+    	<tr class="artist">
     		<td width=600px th:text="${band.name}"></td>
     		<td th:text="${band.genre}"></td>
     		<td th:text="${band.year}"></td>
@@ -40,18 +46,18 @@
  			<td>
  				<a class="btn btn btn-danger btn-sm" th:href="@{/bdelete/{id}(id=${band.id})}">X</a>
  				
- 				<!-- Gives a button to show the albums -->
+ 				<!-- Gives a button to show the albums for that specific artist -->
  				<button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" th:attr="data-target='#collapse' + ${band.id}">&raquo;</button>
  			</td>
     	</tr>
-    	<tr class="table collapse table-sm" th:attr="id='collapse' + ${band.id}"> 	<!-- Table for showing the albums. -->
-    		<th scope="col">Album name</th>											<!-- Has to be this way so that  -->
-    		<th scope="col">Tracks</th>												<!-- the albums are show with the respective bands -->
-    		<th scope="col">Album year</th>											<!-- instead of all bands first then all albums -->
+    	<tr class="table collapse table-sm album" th:attr="id='collapse' + ${band.id}"> 	<!-- Table for showing the albums. -->
+    		<th scope="col">Album name</th>													<!-- Has to be this way so that  -->
+    		<th scope="col">Tracks</th>														<!-- the albums are show with the respective artists -->
+    		<th scope="col">Album year</th>													<!-- instead of all artists first then all albums -->
 			<th scope="col">Rating</th>
-			<th></th>																<!-- Final header to equalize the lines between rows -->
+			<th></th>																		<!-- Final header to equalize the lines between rows -->
     	</tr>
-    	<tr class="table collapse table-sm" th:attr="id='collapse' + ${band.id}" th:each = "album : ${albums}" th:if = "${album.aArtist} == ${band.name}">
+    	<tr class="table collapse table-sm album" th:attr="id='collapse' + ${band.id}" th:each = "album : ${albums}" th:if = "${album.aArtist} == ${band.name}">
 			<td th:text="${album.aName}"></td>
 			<td th:text="${album.aTracks}"></td>
 			<td th:text="${album.aYear}"></td>
@@ -60,7 +66,7 @@
  				<a class="btn btn btn-danger btn-sm" th:href="@{/adelete/{aId}(aId=${album.aId})}">X</a>
  			</td>
     	</tr>
-    	<tr>																		<!-- These are just to give an empty row between artists. -->
+    	<tr>																				<!-- These are just to give an empty row between artists to make the album list look nicer. -->
     		<td></td>
     		<td></td>
     		<td></td>

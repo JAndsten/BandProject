@@ -24,13 +24,18 @@ public class ContClass {
 	
 	@Autowired
 	private AlbumRepository arepository;
-	
+
 	// login page
     @RequestMapping(value="/login")
     public String login() {	
         return "login";
     }
 	
+    @RequestMapping(value="/")
+    public String main() {
+    	return "/bandList";
+    }
+    
     // show all bands and albums
 	@RequestMapping("/list")
 	public String bandList(Model model) {
